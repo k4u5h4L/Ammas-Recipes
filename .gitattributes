@@ -1,4 +1,4 @@
-# public/* linguist-vendored=false
+public/* linguist-vendored=false
 *.html linguist-detectable=false
 *.css linguist-detectable=false
 public/* linguist-detectable=false
