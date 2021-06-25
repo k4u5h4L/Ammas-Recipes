@@ -1,129 +1,66 @@
-import { queryType, idArg } from "nexus";
+import { queryType, stringArg } from "nexus";
 import { AuthenticationError } from "apollo-server-micro";
+import xss from "xss";
 
-import {
-    Note as ChatNote,
-    Todo as ChatTodo,
-    Chat as ChatConvos,
-} from "./index";
+import { Recipe as CookRecipe } from "./index";
 import dbConnect from "@/utils/dbConnect";
-import Note from "@/models/Note";
-import Todo from "@/models/Todo";
-import Chat from "@/models/Chat";
-import { ChatType } from "@/types/ChatType";
+import Recipe from "@/models/Recipe";
+import { RecipeType } from "@/types/index";
 
 export const Query = queryType({
     definition(t) {
-        t.field("NoteByEmail", {
-            type: ChatNote,
-            description: "Get the notes by its corresponding email of the user",
-            args: { email: idArg() },
-            resolve: async (_root, { email }: { email: string }, ctx) => {
+        t.list.field("SearchRecipe", {
+            type: CookRecipe,
+            description: "Search a recipe using a query string",
+            args: { query: stringArg() },
+            resolve: async (_root, { query }: { query: string }, ctx) => {
                 await dbConnect();
 
-                if (ctx.session) {
-                    if (ctx.session.user.email == email) {
-                        const note = await Note.findOne({
-                            email: email,
-                        });
+                const searchRegex: RegExp = new RegExp(xss(query), "gim");
 
-                        if (!note) {
-                            console.log("does not exist");
-                        }
+                // const obj: RecipeType = {
+                //     ingredients: [
+                //         { quantity: "10 ts", item: "sugar" },
+                //         { quantity: "2 ts", item: "oil" },
+                //         { quantity: "11 ts", item: "chocolate" },
+                //     ],
+                //     cook: "Me",
+                //     cuisine: "Continental",
+                //     name: "Cake",
+                //     imgSrc: "/assets/img/recipe-single.jpg",
+                //     method: [
+                //         "take some oil",
+                //         "stir them well",
+                //         "heat for 13 mins",
+                //     ],
+                //     reviews: [
+                //         {
+                //             author: "Someone",
+                //             date: new Date().toDateString(),
+                //             rating: 5,
+                //             desc: "Excellent recipe",
+                //         },
+                //     ],
+                // };
 
-                        return note;
-                    } else {
-                        throw new AuthenticationError(
-                            `I guess you are not ${email}. If you are, login first before acessing the data.`
-                        );
-                    }
-                } else {
-                    throw new AuthenticationError("User is not logged in.");
+                // const r = await new Recipe(obj);
+                // r.save();
+
+                // prettier-ignore
+                const recipes: RecipeType[] = await Recipe.find({
+                    $or: [
+                        { "cuisine": searchRegex },
+                        { "name": searchRegex },
+                        { "cook": searchRegex },
+                        { "ingredients.item": searchRegex },
+                    ],
+                });
+
+                if (!recipes) {
+                    console.log("does not exist");
                 }
-            },
-        });
 
-        t.field("TodoByEmail", {
-            type: ChatTodo,
-            description:
-                "Get the Todo tasks by its corresponding email of the user",
-            args: { email: idArg() },
-            resolve: async (_root, { email }: { email: string }, ctx) => {
-                await dbConnect();
-
-                if (ctx.session) {
-                    if (ctx.session.user.email == email) {
-                        const todo = await Todo.findOne({
-                            email: email,
-                        });
-
-                        if (!todo) {
-                            console.log("does not exist");
-                        }
-
-                        return todo;
-                    } else {
-                        throw new AuthenticationError(
-                            `I guess you are not ${email}. If you are, login first before acessing the data.`
-                        );
-                    }
-                } else {
-                    throw new AuthenticationError("User is not logged in.");
-                }
-            },
-        });
-
-        t.list.field("ChatsByEmail", {
-            type: ChatConvos,
-            description:
-                "Get the chats of corresponding user using their email",
-            args: { email: idArg() },
-            resolve: async (_root, { email }: { email: string }, ctx) => {
-                await dbConnect();
-
-                if (ctx.session) {
-                    if (ctx.session.user.email == email) {
-                        const chats = await Chat.find({
-                            "members.email": email,
-                        });
-
-                        if (!chats) {
-                            console.log("does not exist");
-                        }
-
-                        return chats;
-                    } else {
-                        throw new AuthenticationError(
-                            `I guess you are not ${email}. If you are, login first before acessing the data.`
-                        );
-                    }
-                } else {
-                    throw new AuthenticationError("User is not logged in.");
-                }
-            },
-        });
-
-        t.field("ChatByChatId", {
-            type: ChatConvos,
-            description:
-                "Get the chats of corresponding user using the chat ID",
-            args: { chatId: idArg() },
-            resolve: async (_root, { chatId }: { chatId: string }, ctx) => {
-                await dbConnect();
-
-                if (ctx.session) {
-                    const chat = await Chat.findOne({
-                        chatId: chatId,
-                    });
-
-                    if (!chat) {
-                        console.log("does not exist");
-                    }
-
-                    return chat;
-                } else {
-                    throw new AuthenticationError("User is not logged in.");
-                }
+                return recipes;
             },
         });
     },

@@ -2,62 +2,29 @@
 ### Do not make changes to this file directly
 
 
-type Chat {
-  chatId: String
-  members: [ChatPerson]
-  messages: [Messages]
-}
-
-type ChatPerson {
-  email: String
-  name: String
-}
-
-type Messages {
-  content: String
-  date: String
-  from: String
-  sentiment: Int
-}
-
-type Mutation {
-  completeTodo(desc: String!, email: String!): Todo
-  createChat(email: String!, name: String!): Chat
-  createNote(desc: String!, email: String!): Note
-  createTodo(desc: String!, email: String!): Todo
-  deleteNote(desc: String!, email: String!): Note
-  deleteTodo(desc: String!, email: String!): Todo
-}
-
-type Note {
-  email: String
-  list: [NoteDescription]
-}
-
-type NoteDescription {
-  desc: String
+type Ingredient {
+  item: String
+  quantity: String
 }
 
 type Query {
-  """Get the chats of corresponding user using the chat ID"""
-  ChatByChatId(chatId: ID): Chat
-
-  """Get the chats of corresponding user using their email"""
-  ChatsByEmail(email: ID): [Chat]
-
-  """Get the notes by its corresponding email of the user"""
-  NoteByEmail(email: ID): Note
-
-  """Get the Todo tasks by its corresponding email of the user"""
-  TodoByEmail(email: ID): Todo
+  """Search a recipe using a query string"""
+  SearchRecipe(query: String): [Recipe]
 }
 
-type Todo {
-  email: String
-  list: [TodoDescription]
+type Recipe {
+  cook: String
+  cuisine: String
+  imgSrc: String
+  ingredients: [Ingredient]
+  method: [String]
+  name: String
+  reviews: [Review]
 }
 
-type TodoDescription {
+type Review {
+  author: String
+  date: String
   desc: String
-  status: Boolean
+  rating: Int
 }

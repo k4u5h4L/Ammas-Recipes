@@ -28,37 +28,25 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  Chat: { // root type
-    chatId?: string | null; // String
-    members?: Array<NexusGenRootTypes['ChatPerson'] | null> | null; // [ChatPerson]
-    messages?: Array<NexusGenRootTypes['Messages'] | null> | null; // [Messages]
-  }
-  ChatPerson: { // root type
-    email?: string | null; // String
-    name?: string | null; // String
-  }
-  Messages: { // root type
-    content?: string | null; // String
-    date?: string | null; // String
-    from?: string | null; // String
-    sentiment?: number | null; // Int
-  }
-  Mutation: {};
-  Note: { // root type
-    email?: string | null; // String
-    list?: Array<NexusGenRootTypes['NoteDescription'] | null> | null; // [NoteDescription]
-  }
-  NoteDescription: { // root type
-    desc?: string | null; // String
+  Ingredient: { // root type
+    item?: string | null; // String
+    quantity?: string | null; // String
   }
   Query: {};
-  Todo: { // root type
-    email?: string | null; // String
-    list?: Array<NexusGenRootTypes['TodoDescription'] | null> | null; // [TodoDescription]
+  Recipe: { // root type
+    cook?: string | null; // String
+    cuisine?: string | null; // String
+    imgSrc?: string | null; // String
+    ingredients?: Array<NexusGenRootTypes['Ingredient'] | null> | null; // [Ingredient]
+    method?: Array<string | null> | null; // [String]
+    name?: string | null; // String
+    reviews?: Array<NexusGenRootTypes['Review'] | null> | null; // [Review]
   }
-  TodoDescription: { // root type
+  Review: { // root type
+    author?: string | null; // String
+    date?: string | null; // String
     desc?: string | null; // String
-    status?: boolean | null; // Boolean
+    rating?: number | null; // Int
   }
 }
 
@@ -73,138 +61,59 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
-  Chat: { // field return type
-    chatId: string | null; // String
-    members: Array<NexusGenRootTypes['ChatPerson'] | null> | null; // [ChatPerson]
-    messages: Array<NexusGenRootTypes['Messages'] | null> | null; // [Messages]
-  }
-  ChatPerson: { // field return type
-    email: string | null; // String
-    name: string | null; // String
-  }
-  Messages: { // field return type
-    content: string | null; // String
-    date: string | null; // String
-    from: string | null; // String
-    sentiment: number | null; // Int
-  }
-  Mutation: { // field return type
-    completeTodo: NexusGenRootTypes['Todo'] | null; // Todo
-    createChat: NexusGenRootTypes['Chat'] | null; // Chat
-    createNote: NexusGenRootTypes['Note'] | null; // Note
-    createTodo: NexusGenRootTypes['Todo'] | null; // Todo
-    deleteNote: NexusGenRootTypes['Note'] | null; // Note
-    deleteTodo: NexusGenRootTypes['Todo'] | null; // Todo
-  }
-  Note: { // field return type
-    email: string | null; // String
-    list: Array<NexusGenRootTypes['NoteDescription'] | null> | null; // [NoteDescription]
-  }
-  NoteDescription: { // field return type
-    desc: string | null; // String
+  Ingredient: { // field return type
+    item: string | null; // String
+    quantity: string | null; // String
   }
   Query: { // field return type
-    ChatByChatId: NexusGenRootTypes['Chat'] | null; // Chat
-    ChatsByEmail: Array<NexusGenRootTypes['Chat'] | null> | null; // [Chat]
-    NoteByEmail: NexusGenRootTypes['Note'] | null; // Note
-    TodoByEmail: NexusGenRootTypes['Todo'] | null; // Todo
+    SearchRecipe: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
   }
-  Todo: { // field return type
-    email: string | null; // String
-    list: Array<NexusGenRootTypes['TodoDescription'] | null> | null; // [TodoDescription]
+  Recipe: { // field return type
+    cook: string | null; // String
+    cuisine: string | null; // String
+    imgSrc: string | null; // String
+    ingredients: Array<NexusGenRootTypes['Ingredient'] | null> | null; // [Ingredient]
+    method: Array<string | null> | null; // [String]
+    name: string | null; // String
+    reviews: Array<NexusGenRootTypes['Review'] | null> | null; // [Review]
   }
-  TodoDescription: { // field return type
+  Review: { // field return type
+    author: string | null; // String
+    date: string | null; // String
     desc: string | null; // String
-    status: boolean | null; // Boolean
+    rating: number | null; // Int
   }
 }
 
 export interface NexusGenFieldTypeNames {
-  Chat: { // field return type name
-    chatId: 'String'
-    members: 'ChatPerson'
-    messages: 'Messages'
-  }
-  ChatPerson: { // field return type name
-    email: 'String'
-    name: 'String'
-  }
-  Messages: { // field return type name
-    content: 'String'
-    date: 'String'
-    from: 'String'
-    sentiment: 'Int'
-  }
-  Mutation: { // field return type name
-    completeTodo: 'Todo'
-    createChat: 'Chat'
-    createNote: 'Note'
-    createTodo: 'Todo'
-    deleteNote: 'Note'
-    deleteTodo: 'Todo'
-  }
-  Note: { // field return type name
-    email: 'String'
-    list: 'NoteDescription'
-  }
-  NoteDescription: { // field return type name
-    desc: 'String'
+  Ingredient: { // field return type name
+    item: 'String'
+    quantity: 'String'
   }
   Query: { // field return type name
-    ChatByChatId: 'Chat'
-    ChatsByEmail: 'Chat'
-    NoteByEmail: 'Note'
-    TodoByEmail: 'Todo'
+    SearchRecipe: 'Recipe'
   }
-  Todo: { // field return type name
-    email: 'String'
-    list: 'TodoDescription'
+  Recipe: { // field return type name
+    cook: 'String'
+    cuisine: 'String'
+    imgSrc: 'String'
+    ingredients: 'Ingredient'
+    method: 'String'
+    name: 'String'
+    reviews: 'Review'
   }
-  TodoDescription: { // field return type name
+  Review: { // field return type name
+    author: 'String'
+    date: 'String'
     desc: 'String'
-    status: 'Boolean'
+    rating: 'Int'
   }
 }
 
 export interface NexusGenArgTypes {
-  Mutation: {
-    completeTodo: { // args
-      desc: string; // String!
-      email: string; // String!
-    }
-    createChat: { // args
-      email: string; // String!
-      name: string; // String!
-    }
-    createNote: { // args
-      desc: string; // String!
-      email: string; // String!
-    }
-    createTodo: { // args
-      desc: string; // String!
-      email: string; // String!
-    }
-    deleteNote: { // args
-      desc: string; // String!
-      email: string; // String!
-    }
-    deleteTodo: { // args
-      desc: string; // String!
-      email: string; // String!
-    }
-  }
   Query: {
-    ChatByChatId: { // args
-      chatId?: string | null; // ID
-    }
-    ChatsByEmail: { // args
-      email?: string | null; // ID
-    }
-    NoteByEmail: { // args
-      email?: string | null; // ID
-    }
-    TodoByEmail: { // args
-      email?: string | null; // ID
+    SearchRecipe: { // args
+      query?: string | null; // String
     }
   }
 }
@@ -268,6 +177,8 @@ export interface NexusGenTypes {
 
 declare global {
   interface NexusGenPluginTypeConfig<TypeName extends string> {
+  }
+  interface NexusGenPluginInputTypeConfig<TypeName extends string> {
   }
   interface NexusGenPluginFieldConfig<TypeName extends string, FieldName extends string> {
   }
