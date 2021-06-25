@@ -1,7 +1,7 @@
-<h1 align="center">Chatterz</h1></br>
+<h1 align="center">Amma's Recipes</h1></br>
 
 <p align="center">
-:incoming_envelope:  A JAM stack PWA, real-time messaging web app built with GraphQL, Nexus schema, Apollo, React, TypeScript, Next.js, JWT and MongoDB. :mailbox_with_mail:
+:plate_with_cutlery:  A JAM stack PWA, recipe management and recommending web app built with GraphQL, Nexus schema, Apollo, React, TypeScript, Next.js, JWT and MongoDB. :cocktail:
 </p>
 <br>
 
@@ -15,43 +15,21 @@
 </p>
 
 <br>
-<p align="center">
-<img width="460px" src="assets/logo.png" alt="chatterz"></img>
-</p><br>
+<!-- <p align="center">
+<img width="460px" src="assets/logo.png" alt="amma's recipe"></img>
+</p><br> -->
 
 ## Technologies used:
 
 -   React as the UI library.
 
--   Next.js as the React framework for auth and stuff.
+-   Next.js as the React framework SSG and ISR.
 
 -   GraphQL as the API language.
-
--   Socket.io for real time communication
 
 -   MongoDB, and Mongoose as the ODM.
 
 -   NextAuth as the authentication backend with passwordless logins.
-
-## Features:
-
--   [x] Real time one-to-one messaging
-
--   [x] Messages sync: saves and let's you chat using any device!
-
--   [x] Automatic real-time sentiment recognition of the messages of the other person
-
--   [x] Integrated calendar inside the messaging app
-
--   [x] Integrated notes saving in the chats
-
--   [x] Integrated to-do list in the chats
-
--   [ ] On-to-one or group Video calling
-
--   [ ] Group chats
-
--   [ ] End-to-end encryption
 
 ## Prerequisites:
 
@@ -64,7 +42,7 @@
 -   Clone and cd into the repo.
 
 ```
-git clone https://github.com/k4u5h4L/Chatterz.git && cd Chatterz
+git clone https://github.com/k4u5h4L/Ammas-Recipes.git && cd Ammas-Recipes
 ```
 
 -   Install the dependencies
@@ -74,16 +52,6 @@ yarn install
 ```
 
 -   Create a new file called `.env.local` and fill in variables and keys from different providers from the `.env.example` file.
-
--   Run the development server for the Express backend server by running these two commands in separate terminals.
-
-```bash
-# this will compile the server TS code and will watch for file changes
-yarn run watch
-
-# This will spin up the development server using the nodemon utility
-yarn run dev:server
-```
 
 -   Now with all the API keys and the backend server running, run development server for the client.
 
