@@ -1,57 +1,36 @@
 import React from "react";
 
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import Footer from "@/components/Footer/Footer";
+
 export default function Verify() {
     return (
         <>
-            <div id="layout" className="theme-cyan">
-                <div className="authentication">
-                    <div className="container d-flex flex-column">
-                        <div
-                            className="
-                            row
-                            align-items-center
-                            justify-content-center
-                            no-gutters
-                            min-vh-100
-                        "
-                        >
-                            <div className="col-12 col-md-7 col-lg-5 col-xl-4 py-md-11">
-                                <div className="card border-0 shadow-sm">
-                                    <div className="card-body">
-                                        <h3 className="text-center">
-                                            There. <br />
-                                            We just sent you a link
-                                            <br />
-                                        </h3>
+            <Breadcrumb paths={["verify"]} name="Verify Email" />
 
-                                        <p className="text-center mb-6">
-                                            A verification link has been sent to
-                                            the given email. Click on it to be
-                                            logged in.
-                                        </p>
-
-                                        {/* <div className="text-center mt-5">
-                                                <button
-                                                    type="submit"
-                                                    className="btn btn-lg btn-primary"
-                                                    title=""
-                                                >
-                                                    Logout
-                                                </button>
-                                            </div> */}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="signin-img d-none d-lg-block text-center">
-                                <img
-                                    src="/assets/images/signin-img-cyan.svg"
-                                    alt="Sign In Image"
-                                />
-                            </div>
+            <div className="container margin-bottom-100px">
+                {/* <p>
+                    {" "}
+                    A verification email will be sent to your email. Click on
+                    the link to be logged in
+                </p> */}
+                <div
+                    id="log-in"
+                    className="site-form log-in-form box-shadow border-radius-10"
+                >
+                    <div className="form-output">
+                        <div className="form-group label-floating">
+                            <label className="control-label">
+                                A verification email has been sent to the email
+                                you provided. Click on the link in the email to
+                                be logged in!
+                            </label>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <Footer />
         </>
     );
 }

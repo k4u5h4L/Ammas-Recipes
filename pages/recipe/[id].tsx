@@ -7,7 +7,7 @@ import SingleRecipe from "@/components/SingleRecipe/SingleRecipe";
 const NewRecipe = () => {
     return (
         <>
-            <Breadcrumb paths={["recipe", "paneer"]} />
+            <Breadcrumb paths={["recipe", "paneer"]} name="Recipe" />
             <SingleRecipe />
             <Footer />
         </>

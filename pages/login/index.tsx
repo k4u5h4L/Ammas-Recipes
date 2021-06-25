@@ -21,56 +21,60 @@ export default function Login() {
 
         signIn("email", {
             email: emailData,
-            callbackUrl: `/login/verify/`,
+            callbackUrl: `/`,
             redirect: true,
         });
     };
 
     return (
         <>
-            <Breadcrumb paths={["login"]} />
+            <Breadcrumb paths={["login"]} name="Login" />
 
             <div className="container margin-bottom-100px">
+                {/* <p>
+                    {" "}
+                    A verification email will be sent to your email. Click on
+                    the link to be logged in
+                </p> */}
                 <div
                     id="log-in"
                     className="site-form log-in-form box-shadow border-radius-10"
                 >
                     <div className="form-output">
-                        <form>
-                            <div className="form-group label-floating">
-                                <label className="control-label">
-                                    Your Email
-                                </label>
-                                <input
-                                    className="form-control"
-                                    placeholder=""
-                                    type="email"
-                                />
-                            </div>
-
-                            {/* <div className="remember">
-                                <div className="checkbox">
-                                    <label>
-                                        <input
-                                            name="optionsCheckboxes"
-                                            type="checkbox"
-                                        />
-                                        Remember Me
+                        {!session ? (
+                            <form onSubmit={(e) => handleSubmit(e)}>
+                                <div className="form-group label-floating">
+                                    <label className="control-label">
+                                        Your Email
                                     </label>
+                                    <input
+                                        className="form-control"
+                                        placeholder=""
+                                        type="email"
+                                        onChange={(e) => handleEmailChange(e)}
+                                    />
                                 </div>
-                                <a href="#" className="forgot">
-                                    Forgot my Password
-                                </a>
-                            </div> */}
 
-                            <a
-                                href="dashboard-home.html"
-                                className="btn btn-md btn-primary full-width"
-                            >
-                                Login
-                            </a>
+                                {loading ? (
+                                    <div className="remember">
+                                        <div className="checkbox">
+                                            <Image
+                                                src="/loading.gif"
+                                                width={50}
+                                                height={50}
+                                            />
+                                        </div>
+                                    </div>
+                                ) : null}
 
-                            {/* <div className="or"></div>
+                                <button
+                                    className="btn btn-md btn-primary full-width"
+                                    type="submit"
+                                >
+                                    Login
+                                </button>
+
+                                {/* <div className="or"></div>
 
                             <a
                                 href="#"
@@ -108,7 +112,27 @@ export default function Login() {
                                 Don&apos;t you have an account?
                                 <a href="page-sign-up.html">Register Now!</a>
                             </p> */}
-                        </form>
+                            </form>
+                        ) : (
+                            <div className="form-group label-floating">
+                                <label className="control-label">
+                                    Not{" "}
+                                    <b>
+                                        {session.user.name ||
+                                            session.user.email}
+                                        ? Then logout and login again!
+                                    </b>
+                                </label>
+
+                                <button
+                                    className="btn btn-md btn-primary full-width"
+                                    type="button"
+                                    onClick={() => signOut()}
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

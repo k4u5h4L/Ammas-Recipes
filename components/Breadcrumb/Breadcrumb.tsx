@@ -1,6 +1,12 @@
 import React from "react";
 
-export default function Breadcrumb({ paths }: { paths: string[] }) {
+export default function Breadcrumb({
+    paths,
+    name,
+}: {
+    paths: string[];
+    name: string;
+}) {
     return (
         <div id="page-title" className="padding-tb-30px gradient-white">
             <div className="container text-left">
@@ -9,7 +15,7 @@ export default function Breadcrumb({ paths }: { paths: string[] }) {
                         <li key={index}>{path}</li>
                     ))}
                 </ol>
-                <h1 className="font-weight-300">Recipes</h1>
+                <h1 className="font-weight-300">{name}</h1>
             </div>
         </div>
     );

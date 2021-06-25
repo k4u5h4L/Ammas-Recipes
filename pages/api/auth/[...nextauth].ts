@@ -44,7 +44,7 @@ export default (req: NextApiRequest, res: NextApiResponse) =>
             signOut: "/auth/signout",
             error: "/auth/error", // Error code passed in query string as ?error=
             verifyRequest: "/login/verify", // (used for check email message)
-            newUser: "/login/newuser", // If set, new users will be directed here on first sign in
+            newUser: null, // If set, new users will be directed here on first sign in
         },
     });
 

@@ -7,7 +7,7 @@ import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 const NewRecipe = () => {
     return (
         <>
-            <Breadcrumb paths={["recipe", "paneer"]} />
+            <Breadcrumb paths={["recipe", "paneer"]} name="Recipes" />
             <NewRecipeForm />
             <Footer />
         </>

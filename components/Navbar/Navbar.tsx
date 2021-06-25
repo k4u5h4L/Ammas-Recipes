@@ -1,7 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/client";
 
 export default function Navbar() {
+    const [session] = useSession();
     return (
         <header className="background-main-color">
             <div className="container">
@@ -66,11 +68,13 @@ export default function Navbar() {
                                             <a>recipes</a>
                                         </Link>
                                     </li>
-                                    <li className="has-dropdown">
-                                        <Link href="/login">
-                                            <a>login</a>
-                                        </Link>
-                                    </li>
+                                    {!session ? (
+                                        <li className="has-dropdown">
+                                            <Link href="/login">
+                                                <a>login</a>
+                                            </Link>
+                                        </li>
+                                    ) : null}
                                 </ul>
                             </div>
                             <div className="col-lg-2 col-md-12">

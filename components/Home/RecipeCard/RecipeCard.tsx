@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function RecipeCard({ title, imgSrc, rating, serving, cook }) {
-    console.log("recipe card");
-
     return (
         <div
             className="

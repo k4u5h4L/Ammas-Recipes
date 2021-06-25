@@ -7,7 +7,7 @@ import RecipesList from "@/components/RecipesList/RecipesList";
 const Recipes = () => {
     return (
         <>
-            <Breadcrumb paths={["recipes"]} />
+            <Breadcrumb paths={["recipes"]} name="Recipes" />
             <RecipesList />
             <Footer />
         </>
