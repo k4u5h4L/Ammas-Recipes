@@ -49,7 +49,7 @@ export const getStaticProps: GetStaticProps = async (
         props: {
             recipe: JSON.stringify(recipe),
         },
-        revalidate: 10,
+        revalidate: 1,
     };
 };
 

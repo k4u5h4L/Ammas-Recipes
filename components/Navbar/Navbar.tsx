@@ -12,18 +12,19 @@ export default function Navbar() {
                     <div className="header-in">
                         <div className="row">
                             <div className="col-lg-2 col-md-12">
-                                <a
-                                    id="logo"
-                                    href="index.html"
-                                    className="d-inline-block margin-tb-5px"
-                                >
-                                    <img
-                                        src="/icon.png"
-                                        alt="logo-icon"
-                                        width={50}
-                                        height={50}
-                                    />
-                                </a>
+                                <Link href="/">
+                                    <a
+                                        id="logo"
+                                        className="d-inline-block margin-tb-5px"
+                                    >
+                                        <img
+                                            src="/icon.png"
+                                            alt="logo-icon"
+                                            width={50}
+                                            height={50}
+                                        />
+                                    </a>
+                                </Link>
                                 <a
                                     className="
                                         mobile-toggle

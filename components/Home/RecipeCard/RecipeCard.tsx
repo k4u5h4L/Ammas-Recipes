@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function RecipeCard({ title, imgSrc, rating, serving, cook }) {
+export default function RecipeCard({ title, imgSrc, rating, cuisine, cook }) {
     return (
         <div
             className="
@@ -28,11 +28,11 @@ export default function RecipeCard({ title, imgSrc, rating, serving, cook }) {
                                     <li className="active" key={index}></li>
                                 )
                             )}
-                            {[...Array(5 - rating)].map(
+                            {/* {[...Array(5 - rating)].map(
                                 (rating: number, index: number) => (
                                     <li key={index}></li>
                                 )
-                            )}
+                            )} */}
                         </ul>
                     </div>
                     <hr />
@@ -45,8 +45,7 @@ export default function RecipeCard({ title, imgSrc, rating, serving, cook }) {
                         </div>
                         <div className="col-8 text-right">
                             <a href="#" className="text-grey-2">
-                                <i className="fas fa-users"></i> {serving[0]}-
-                                {serving[1]} servings
+                                <i className="fas fa-utensils"></i> {cuisine}
                             </a>
                         </div>
                     </div>
@@ -68,13 +67,15 @@ export default function RecipeCard({ title, imgSrc, rating, serving, cook }) {
                                     "
                     >
                         <img
-                            src="assets/img/zoal-1.jpg"
+                            src="/assets/default-profile.png"
                             className="
                                             height-30px
                                             border-radius-30
                                             margin-right-15px
                                         "
                             alt=""
+                            width={30}
+                            height={30}
                         />
                         {cook}
                     </a>

@@ -1,67 +1,13 @@
 import React from "react";
 
 import RecipeCard from "@/components/Home/RecipeCard/RecipeCard";
+import { RecipeType } from "@/types/RecipeType";
 
-export default function Recipes() {
-    const recipes = [
-        {
-            title: "Slow Cooker Loaded Potato Soup",
-            imgSrc: "/assets/img/recipes-1.jpg",
-            rating: 4,
-            serving: [6, 8],
-            cook: "Alison Brie",
-        },
-        {
-            title: "Slow Cooker Loaded Potato Soup",
-            imgSrc: "/assets/img/recipes-2.jpg",
-            rating: 4,
-            serving: [6, 8],
-            cook: "Alison Brie",
-        },
-        {
-            title: "Slow Cooker Loaded Potato Soup",
-            imgSrc: "/assets/img/recipes-3.jpg",
-            rating: 4,
-            serving: [6, 8],
-            cook: "Alison Brie",
-        },
-        {
-            title: "Slow Cooker Loaded Potato Soup",
-            imgSrc: "/assets/img/recipes-4.jpg",
-            rating: 4,
-            serving: [6, 8],
-            cook: "Alison Brie",
-        },
-        {
-            title: "Slow Cooker Loaded Potato Soup",
-            imgSrc: "/assets/img/recipes-5.jpg",
-            rating: 4,
-            serving: [6, 8],
-            cook: "Alison Brie",
-        },
-        {
-            title: "Slow Cooker Loaded Potato Soup",
-            imgSrc: "/assets/img/recipes-6.jpg",
-            rating: 4,
-            serving: [6, 8],
-            cook: "Alison Brie",
-        },
-        {
-            title: "Slow Cooker Loaded Potato Soup",
-            imgSrc: "/assets/img/recipes-1.jpg",
-            rating: 4,
-            serving: [6, 8],
-            cook: "Alison Brie",
-        },
-        {
-            title: "Slow Cooker Loaded Potato Soup",
-            imgSrc: "/assets/img/recipes-2.jpg",
-            rating: 4,
-            serving: [6, 8],
-            cook: "Alison Brie",
-        },
-    ];
+interface PropTypes {
+    recipes: RecipeType[];
+}
 
+export default function Recipes({ recipes }: PropTypes) {
     return (
         <section className="padding-tb-100px">
             <div className="container">
@@ -72,10 +18,7 @@ export default function Recipes() {
                     <div className="row justify-content-center margin-bottom-45px">
                         <div className="col-md-7">
                             <p className="text-grey-2">
-                                Lorem Ipsum is simply dummy text of the printing
-                                and typesetting industry. Lorem Ipsum has been
-                                the industry&apos;s standard dummy text ever
-                                since the 1500s
+                                Learn new recipes uploaded by our users!
                             </p>
                         </div>
                     </div>
@@ -86,10 +29,10 @@ export default function Recipes() {
                     {recipes.map((recipe, index) => (
                         <RecipeCard
                             key={index}
-                            title={recipe.title}
+                            title={recipe.name}
                             imgSrc={recipe.imgSrc}
                             rating={recipe.rating}
-                            serving={recipe.serving}
+                            cuisine={recipe.cuisine}
                             cook={recipe.cook}
                         />
                     ))}
