@@ -19,6 +19,7 @@
             "@/constants/*": ["constants/*"],
             "@/types/*": ["@types/*"],
             "@/utils/*": ["utils/*"],
+            "@/public/*": ["public/*"],
             "@/models/*": ["models/*"],
             "@/databases/*": ["databases/*"],
             "@/helpers/*": ["helpers/*"],

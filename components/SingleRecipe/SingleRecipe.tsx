@@ -1,6 +1,12 @@
 import React from "react";
+import {} from "next-auth/client";
 
-export default function SingleRecipe() {
+import { RecipeType } from "@/types/RecipeType";
+interface PropTypes {
+    recp: RecipeType;
+}
+
+export default function SingleRecipe({ recp }: PropTypes) {
     return (
         <div className="container">
             <div className="row">
@@ -17,67 +23,43 @@ export default function SingleRecipe() {
                         <div className="padding-lr-30px padding-tb-20px">
                             <h5 className="margin-bottom-20px margin-top-10px">
                                 <a className="text-dark" href="#">
-                                    Slow Cooker Loaded Potato Soup
+                                    {recp.name}
                                 </a>
                             </h5>
                             <div className="rating">
                                 <ul>
-                                    <li className="active"></li>
-                                    <li className="active"></li>
-                                    <li className="active"></li>
-                                    <li className="active"></li>
-                                    <li></li>
+                                    {[...Array(recp.rating)].map(
+                                        (rating: number, index: number) => (
+                                            <li
+                                                className="active"
+                                                key={index}
+                                            ></li>
+                                        )
+                                    )}
+                                    {[...Array(5 - recp.rating)].map(
+                                        (rating: number, index: number) => (
+                                            <li key={index}></li>
+                                        )
+                                    )}
                                 </ul>
                             </div>
                             <hr />
                             <h3>Ingredients</h3>
                             <ul>
-                                <li>
-                                    <strong>16 oz</strong> rotini noodles
-                                </li>
-                                <li>
-                                    <strong>24 oz</strong> spaghetti sauce
-                                    (prego traditional)
-                                </li>
-                                <li>
-                                    <strong>1/2 lb</strong> ground beef
-                                </li>
-                                <li>
-                                    <strong>15 oz</strong> ricotta cheese
-                                </li>
-                                <li>
-                                    <strong>14 oz</strong> mozzarella shredded
-                                </li>
-                                <li>
-                                    <strong>1 can</strong> sliced olives
-                                </li>
-                                <li>
-                                    <strong>1 packages</strong> pepperoni slices
-                                </li>
+                                {recp.ingredients.map((ing, index) => (
+                                    <li key={index}>
+                                        <strong>{ing.quantity}</strong>{" "}
+                                        {ing.item}
+                                    </li>
+                                ))}
                             </ul>
                             <h3>Method</h3>
                             <ol>
-                                <li>preheat oven to 350º</li>
-                                <li>bring noodles to a boil then drain</li>
-                                <li>
-                                    while noodles are cooking in a bowl mix
-                                    ricotta cheese, mozzarella cheese and olives
-                                    together. it will be thick
-                                </li>
-                                <li>cook ground beef then drain</li>
-                                <li>add spaghetti sauce to ground beef</li>
-                                <li>
-                                    add pasta to beef and sauce mix, stir until
-                                    well blended then move to 16x9 casserole
-                                    dish
-                                </li>
-                                <li>spread cheese mixture all over evenly</li>
-                                <li>
-                                    place pepperonis on top snd remember to
-                                    partially overlap pepperonis since they
-                                    shrink
-                                </li>
-                                <li>back in 350º oven for 20 minutes</li>
+                                {recp.method.map(
+                                    (met: string, index: number) => (
+                                        <li key={index}>{met}</li>
+                                    )
+                                )}
                             </ol>
                             <hr />
                             <div className="row no-gutters">
@@ -88,8 +70,8 @@ export default function SingleRecipe() {
                                 </div>
                                 <div className="col-8 text-right">
                                     <a href="#" className="text-grey-2">
-                                        <i className="fas fa-users"></i> 6-8
-                                        servings
+                                        <i className="fas fa-utensils"></i>{" "}
+                                        {recp.cuisine}
                                     </a>
                                 </div>
                             </div>
@@ -111,15 +93,14 @@ export default function SingleRecipe() {
                                 "
                             >
                                 <img
-                                    src="/assets/img/zoal-8.jpg"
+                                    src="/assets/default-profile.png"
                                     className="
                                         height-30px
                                         border-radius-30
-                                        margin-right-15px
-                                    "
-                                    alt=""
+                                        margin-right-15px"
+                                    alt="profile-pic"
                                 />
-                                Salim Aldosery
+                                {recp.cook}
                             </a>
                         </div>
                     </div>
@@ -148,165 +129,85 @@ export default function SingleRecipe() {
                                     text-grey-3
                                 "
                             >
-                                <li
-                                    className="
+                                {/* ##################################################### */}
+                                {recp.reviews.map((review, index) => (
+                                    <li
+                                        key={index}
+                                        className="
                                         border-bottom-1 border-grey-1
                                         margin-bottom-20px
                                     "
-                                >
-                                    <img
-                                        src="/assets/img/testimonial-1.png"
-                                        className="
+                                    >
+                                        <img
+                                            src="/assets/default-profile.png"
+                                            width={60}
+                                            height={60}
+                                            className="
                                             float-left
                                             margin-right-20px
                                             border-radius-60
                                             margin-bottom-20px
                                         "
-                                        alt=""
-                                    />
-                                    <div className="margin-left-85px">
-                                        <a
-                                            className="
+                                            alt=""
+                                        />
+                                        <div className="margin-left-85px">
+                                            <a
+                                                className="
                                                 d-inline-block
                                                 text-dark text-medium
                                                 margin-right-20px
                                             "
-                                            href="#"
-                                        >
-                                            Bakhita alrawi
-                                        </a>
-                                        <span className="text-extra-small">
-                                            Date :
-                                            <a
                                                 href="#"
-                                                className="text-main-color"
                                             >
-                                                July 15, 2016
+                                                {review.author}
                                             </a>
-                                        </span>
-                                        <div className="rating">
-                                            <ul>
-                                                <li className="active"></li>
-                                                <li className="active"></li>
-                                                <li className="active"></li>
-                                                <li className="active"></li>
-                                                <li></li>
-                                            </ul>
+                                            <span className="text-extra-small">
+                                                Date :
+                                                <a
+                                                    href="#"
+                                                    className="text-main-color"
+                                                >
+                                                    {review.date}
+                                                </a>
+                                            </span>
+                                            <div className="rating">
+                                                <ul>
+                                                    {[
+                                                        ...Array(review.rating),
+                                                    ].map(
+                                                        (
+                                                            rating: number,
+                                                            index: number
+                                                        ) => (
+                                                            <li
+                                                                className="active"
+                                                                key={index}
+                                                            ></li>
+                                                        )
+                                                    )}
+                                                    {[
+                                                        ...Array(
+                                                            5 - review.rating
+                                                        ),
+                                                    ].map(
+                                                        (
+                                                            rating: number,
+                                                            index: number
+                                                        ) => (
+                                                            <li
+                                                                key={index}
+                                                            ></li>
+                                                        )
+                                                    )}
+                                                </ul>
+                                            </div>
+                                            <p className="margin-top-15px text-grey-2">
+                                                {review.desc}
+                                            </p>
                                         </div>
-                                        <p className="margin-top-15px text-grey-2">
-                                            It is a long established fact that a
-                                            reader will be distracted by the
-                                            readable content of a page when
-                                            looking at its layout.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li
-                                    className="
-                                        border-bottom-1 border-grey-1
-                                        margin-bottom-20px
-                                    "
-                                >
-                                    <img
-                                        src="/assets/img/testimonial-2.png"
-                                        className="
-                                            float-left
-                                            margin-right-20px
-                                            border-radius-60
-                                            margin-bottom-20px
-                                        "
-                                        alt=""
-                                    />
-                                    <div className="margin-left-85px">
-                                        <a
-                                            className="
-                                                d-inline-block
-                                                text-dark text-medium
-                                                margin-right-20px
-                                            "
-                                            href="#"
-                                        >
-                                            Rabie Elkheir
-                                        </a>
-                                        <span className="text-extra-small">
-                                            Date :
-                                            <a
-                                                href="#"
-                                                className="text-main-color"
-                                            >
-                                                July 15, 2016
-                                            </a>
-                                        </span>
-                                        <div className="rating">
-                                            <ul>
-                                                <li className="active"></li>
-                                                <li className="active"></li>
-                                                <li></li>
-                                                <li></li>
-                                                <li></li>
-                                            </ul>
-                                        </div>
-                                        <p className="margin-top-15px text-grey-2">
-                                            It is a long established fact that a
-                                            reader will be distracted by the
-                                            readable content of a page when
-                                            looking at its layout.
-                                        </p>
-                                    </div>
-                                </li>
-                                <li
-                                    className="
-                                        border-bottom-1 border-grey-1
-                                        margin-bottom-20px
-                                    "
-                                >
-                                    <img
-                                        src="/assets/img/testimonial-3.png"
-                                        className="
-                                            float-left
-                                            margin-right-20px
-                                            border-radius-60
-                                            margin-bottom-20px
-                                        "
-                                        alt=""
-                                    />
-                                    <div className="margin-left-85px">
-                                        <a
-                                            className="
-                                                d-inline-block
-                                                text-dark text-medium
-                                                margin-right-20px
-                                            "
-                                            href="#"
-                                        >
-                                            Adel Alsaeed
-                                        </a>
-                                        <span className="text-extra-small">
-                                            Date :
-                                            <a
-                                                href="#"
-                                                className="text-main-color"
-                                            >
-                                                July 15, 2016
-                                            </a>
-                                        </span>
-                                        <div className="rating">
-                                            <ul>
-                                                <li className="active"></li>
-                                                <li className="active"></li>
-                                                <li className="active"></li>
-                                                <li className="active"></li>
-                                                <li className="active"></li>
-                                            </ul>
-                                        </div>
-                                        <p className="margin-top-15px text-grey-2">
-                                            It is a long established fact that a
-                                            reader will be distracted by the
-                                            readable content of a page when
-                                            looking at its layout.
-                                        </p>
-                                    </div>
-                                </li>
+                                    </li>
+                                ))}
+                                {/* ##################################################### */}
                             </ul>
                         </div>
                     </div>
