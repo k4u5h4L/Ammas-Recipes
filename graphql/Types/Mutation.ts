@@ -17,9 +17,12 @@ export const Mutation = mutationType({
             resolve: async (_root, { data }: { data: string }, ctx) => {
                 if (ctx.session) {
                     await dbConnect();
+                    // console.log("data", JSON.parse(data));
 
                     try {
-                        const recipe: RecipeType = JSON.parse(xss(data));
+                        let recipe: RecipeType = JSON.parse(data);
+                        recipe.cook =
+                            ctx.session.user.name || ctx.session.user.email;
 
                         const r = await new Recipe(recipe);
                         r.save();

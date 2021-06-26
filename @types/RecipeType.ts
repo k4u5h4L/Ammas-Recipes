@@ -14,7 +14,9 @@ export interface RecipeType {
     _id?: string;
     ingredients: Ingredient[];
     cuisine: string;
+    tags: string[];
     name: string;
+    rating?: number;
     imgSrc?: string;
     method: string[];
     cook: string;

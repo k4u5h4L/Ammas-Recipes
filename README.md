@@ -15,9 +15,9 @@
 </p>
 
 <br>
-<!-- <p align="center">
+<p align="center">
 <img width="460px" src="assets/logo.png" alt="amma's recipe"></img>
-</p><br> -->
+</p><br>
 
 ## Technologies used:
 

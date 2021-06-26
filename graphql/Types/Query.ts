@@ -1,4 +1,4 @@
-import { queryType, stringArg } from "nexus";
+import { queryType, stringArg, intArg } from "nexus";
 import { AuthenticationError } from "apollo-server-micro";
 import xss from "xss";
 
@@ -12,8 +12,16 @@ export const Query = queryType({
         t.list.field("SearchRecipe", {
             type: CookRecipe,
             description: "Search a recipe using a query string",
-            args: { query: stringArg() },
-            resolve: async (_root, { query }: { query: string }, ctx) => {
+            args: { query: stringArg(), start: intArg(), num: intArg() },
+            resolve: async (
+                _root,
+                {
+                    query,
+                    start,
+                    num,
+                }: { query: string; start: number; num: number },
+                ctx
+            ) => {
                 await dbConnect();
 
                 const searchRegex: RegExp = new RegExp(xss(query), "gim");
@@ -54,7 +62,7 @@ export const Query = queryType({
                         { "cook": searchRegex },
                         { "ingredients.item": searchRegex },
                     ],
-                });
+                }).sort({rating: -1}).skip(start).limit(num);
 
                 if (!recipes) {
                     console.log("does not exist");

@@ -35,25 +35,3 @@ export const config = {
 };
 
 export default handler;
-
-/* 
-GraphQl stuff:
-
--  Helps frontend engineers to better develop products by having to choose the data they want to consume.
-
--  Helps backend engineers by making it easier to maintain the API.
-
--  Increases the efficiency of the query by not underfetching or overfetching the data.
-
--  Can help in scaling as less number of requests need to be made.
-
--  Is self documented. i.e. has documentation of the schema, types, etc so that the consumer of the API knows exactly what to expect.
-
--  Can allow for better version changes compared to REST. No need to main /v1/ or /v2/ routes.
-
-
-SE stuff in GraphQL:
-
--  Majorly falls under design. Specifically design of APIs.
-
-*/

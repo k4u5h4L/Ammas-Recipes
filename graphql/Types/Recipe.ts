@@ -29,6 +29,7 @@ export const Recipe = objectType({
             type: Ingredient,
         });
         t.list.string("method");
+        t.list.string("tags");
         t.list.field("reviews", {
             type: Review,
         });

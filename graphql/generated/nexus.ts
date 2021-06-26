@@ -32,6 +32,7 @@ export interface NexusGenObjects {
     item?: string | null; // String
     quantity?: string | null; // String
   }
+  Mutation: {};
   Query: {};
   Recipe: { // root type
     cook?: string | null; // String
@@ -41,6 +42,7 @@ export interface NexusGenObjects {
     method?: Array<string | null> | null; // [String]
     name?: string | null; // String
     reviews?: Array<NexusGenRootTypes['Review'] | null> | null; // [Review]
+    tags?: Array<string | null> | null; // [String]
   }
   Review: { // root type
     author?: string | null; // String
@@ -65,6 +67,9 @@ export interface NexusGenFieldTypes {
     item: string | null; // String
     quantity: string | null; // String
   }
+  Mutation: { // field return type
+    createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
+  }
   Query: { // field return type
     SearchRecipe: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
   }
@@ -76,6 +81,7 @@ export interface NexusGenFieldTypes {
     method: Array<string | null> | null; // [String]
     name: string | null; // String
     reviews: Array<NexusGenRootTypes['Review'] | null> | null; // [Review]
+    tags: Array<string | null> | null; // [String]
   }
   Review: { // field return type
     author: string | null; // String
@@ -90,6 +96,9 @@ export interface NexusGenFieldTypeNames {
     item: 'String'
     quantity: 'String'
   }
+  Mutation: { // field return type name
+    createRecipe: 'Recipe'
+  }
   Query: { // field return type name
     SearchRecipe: 'Recipe'
   }
@@ -101,6 +110,7 @@ export interface NexusGenFieldTypeNames {
     method: 'String'
     name: 'String'
     reviews: 'Review'
+    tags: 'String'
   }
   Review: { // field return type name
     author: 'String'
@@ -111,9 +121,16 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createRecipe: { // args
+      data: string; // String!
+    }
+  }
   Query: {
     SearchRecipe: { // args
+      num?: number | null; // Int
       query?: string | null; // String
+      start?: number | null; // Int
     }
   }
 }

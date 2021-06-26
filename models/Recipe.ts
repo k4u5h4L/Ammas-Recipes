@@ -11,12 +11,25 @@ const RecipeSchema = new mongoose.Schema({
     method: {
         type: Array,
     },
+    rating: {
+        type: Number,
+    },
+    tags: {
+        type: Array,
+    },
     cook: {
+        type: String,
+        required: true,
+    },
+    name: {
         type: String,
         required: true,
     },
     reviews: {
         type: Array,
+    },
+    imgSrc: {
+        type: String,
     },
 });
 

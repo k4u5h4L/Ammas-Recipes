@@ -7,9 +7,13 @@ type Ingredient {
   quantity: String
 }
 
+type Mutation {
+  createRecipe(data: String!): Recipe
+}
+
 type Query {
   """Search a recipe using a query string"""
-  SearchRecipe(query: String): [Recipe]
+  SearchRecipe(num: Int, query: String, start: Int): [Recipe]
 }
 
 type Recipe {
@@ -20,6 +24,7 @@ type Recipe {
   method: [String]
   name: String
   reviews: [Review]
+  tags: [String]
 }
 
 type Review {

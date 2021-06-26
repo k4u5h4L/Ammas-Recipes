@@ -1,23 +1,62 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import Link from "next/link";
 
-export default function RecipesList() {
+import { Ingredient, RecipeType } from "@/types/index";
+
+export default function RecipesList({ recp }) {
+    const [recipes, setRecipes] = useState<RecipeType[]>(recp);
+    const searchRef = useRef("");
+
+    // console.log("recipes comp", recipes);
+
+    const searchIngredients = (
+        ingredients: Ingredient[],
+        query: RegExp
+    ): boolean => {
+        ingredients.forEach((ingredient: Ingredient) => {
+            if (query.test(ingredient.item)) {
+                return true;
+            }
+        });
+
+        return false;
+    };
+
+    const handleSearchChange = (e: any) => {
+        searchRef.current = e.target.value.trim();
+
+        const searchRegex: RegExp = new RegExp(searchRef.current, "gim");
+
+        setRecipes(
+            recp.filter(
+                (recipe: RecipeType) =>
+                    searchRegex.test(recipe.name) ||
+                    searchRegex.test(recipe.cuisine) ||
+                    searchRegex.test(recipe.cook) ||
+                    recipe.tags.includes(searchRef.current) ||
+                    searchIngredients(recipe.ingredients, searchRegex)
+            )
+        );
+    };
+
     return (
         <>
             <div className="container">
                 <div className="margin-bottom-60px">
                     <div className="listing-search box-shadow">
                         <form className="row no-gutters">
-                            <div className="col-md-4">
+                            {/* "col-md-4" previously */}
+                            <div className="col-md-12">
                                 <div className="keywords">
                                     <input
                                         className="listing-form first"
                                         type="text"
                                         placeholder="Keywords..."
-                                        value=""
+                                        onChange={(e) => handleSearchChange(e)}
                                     />
                                 </div>
                             </div>
-                            <div className="col-md-4">
+                            {/* <div className="col-md-4">
                                 <div className="categories dropdown">
                                     <a
                                         className="listing-form d-block text-nowrap"
@@ -82,8 +121,8 @@ export default function RecipesList() {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-md-4">
+                            </div> */}
+                            {/* <div className="col-md-4">
                                 <a
                                     className="
                                     listing-bottom
@@ -94,7 +133,7 @@ export default function RecipesList() {
                                 >
                                     Search Now
                                 </a>
-                            </div>
+                            </div> */}
                         </form>
                     </div>
                 </div>
@@ -105,619 +144,90 @@ export default function RecipesList() {
             <div className="container margin-bottom-100px">
                 <div className="row">
                     {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
+                    {recipes.map((recipe: RecipeType, index: number) => (
                         <div
-                            className="
+                            className="col-lg-6 margin-bottom-30px"
+                            key={index}
+                        >
+                            <div
+                                className="
                             background-white
                             thum-hover
                             box-shadow
                             hvr-float
                             full-width
                         "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-1.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
+                            >
+                                <div className="float-md-left margin-right-30px thum-xs">
+                                    <img
+                                        className="width-250px"
+                                        src={recipe.imgSrc}
+                                        alt={recipe.name + "-alt"}
+                                    />
                                 </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
+                                <div className="padding-25px">
+                                    <div className="rating">
+                                        <ul>
+                                            {[...Array(recipe.rating)].map(
+                                                (
+                                                    rating: number,
+                                                    index: number
+                                                ) => (
+                                                    <li
+                                                        className="active"
+                                                        key={index}
+                                                    ></li>
+                                                )
+                                            )}
+                                            {[...Array(5 - recipe.rating)].map(
+                                                (
+                                                    rating: number,
+                                                    index: number
+                                                ) => (
+                                                    <li key={index}></li>
+                                                )
+                                            )}
+                                        </ul>
+                                    </div>
+                                    <h3>
+                                        <Link href={`/recipe/${recipe._id}`}>
+                                            <a
+                                                className="
                                         d-block
                                         text-dark text-capitalize text-medium
                                         margin-tb-15px
                                     "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
+                                            >
+                                                {recipe.name}
+                                            </a>
+                                        </Link>
+                                    </h3>
+                                    <hr />
+                                    <div className="row no-gutters">
+                                        <div className="col-4 text-left">
+                                            <a href="#" className="text-red">
+                                                <i className="far fa-heart"></i>{" "}
+                                                Save
+                                            </a>
+                                        </div>
+                                        <div className="col-8 text-right">
+                                            <a href="#" className="text-grey-2">
+                                                <i className="fas fs-utensils"></i>{" "}
+                                                {recipe.cuisine}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="clearfix"></div>
                             </div>
-                            <div className="clearfix"></div>
                         </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-2.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-3.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-4.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-5.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-6.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-1.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-1.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-2.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
-                    {/* <!-- // item --> */}
-
-                    {/* <!-- item --> */}
-                    <div className="col-lg-6 margin-bottom-30px">
-                        <div
-                            className="
-                            background-white
-                            thum-hover
-                            box-shadow
-                            hvr-float
-                            full-width
-                        "
-                        >
-                            <div className="float-md-left margin-right-30px thum-xs">
-                                <img
-                                    className="width-250px"
-                                    src="assets/img/recipes-3.jpg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="padding-25px">
-                                <div className="rating">
-                                    <ul>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li className="active"></li>
-                                        <li></li>
-                                    </ul>
-                                </div>
-                                <h3>
-                                    <a
-                                        href="#"
-                                        className="
-                                        d-block
-                                        text-dark text-capitalize text-medium
-                                        margin-tb-15px
-                                    "
-                                    >
-                                        Slow Cooker Loaded Potato Soup
-                                    </a>
-                                </h3>
-                                <hr />
-                                <div className="row no-gutters">
-                                    <div className="col-4 text-left">
-                                        <a href="#" className="text-red">
-                                            <i className="far fa-heart"></i>{" "}
-                                            Save
-                                        </a>
-                                    </div>
-                                    <div className="col-8 text-right">
-                                        <a href="#" className="text-grey-2">
-                                            <i className="fas fa-users"></i> 6-8
-                                            servings
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                    </div>
+                    ))}
                     {/* <!-- // item --> */}
                 </div>
 
-                <div className="text-center">
-                    <a
-                        href="#"
+                {/* <div className="text-center">
+                    <button
+                        style={{ cursor: "pointer" }}
                         className="
                         btn
                         box-shadow
@@ -731,9 +241,9 @@ export default function RecipesList() {
                         text-white
                     "
                     >
-                        Show All Recipes
-                    </a>
-                </div>
+                        Show More
+                    </button>
+                </div> */}
             </div>
         </>
     );

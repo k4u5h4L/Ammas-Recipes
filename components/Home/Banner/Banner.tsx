@@ -27,7 +27,7 @@ export default function Banner() {
                     <div className="margin-top-45px">
                         <div className="row justify-content-center margin-tb-60px">
                             <div className="col-lg-8">
-                                <div className="listing-search">
+                                {/* <div className="listing-search">
                                     <form className="row no-gutters">
                                         <div className="col-md-4">
                                             <div className="keywords">
@@ -146,7 +146,7 @@ export default function Banner() {
                                             </a>
                                         </div>
                                     </form>
-                                </div>
+                                </div> */}
                             </div>
                         </div>
                     </div>
