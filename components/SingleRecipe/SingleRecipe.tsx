@@ -1,23 +1,78 @@
-import React from "react";
-import {} from "next-auth/client";
+import React, { useState, useEffect, useRef } from "react";
+import { useSession } from "next-auth/client";
+import Link from "next/link";
 
-import { RecipeType } from "@/types/RecipeType";
+import { RecipeType, ReviewType } from "@/types/RecipeType";
 interface PropTypes {
     recp: RecipeType;
 }
 
 export default function SingleRecipe({ recp }: PropTypes) {
+    const [session] = useSession();
+
+    const [rating, setRating] = useState<number>(0);
+    const [comment, setComment] = useState<string>("");
+
+    const ratingChangeHandler = (r: number): void => {
+        setRating(r);
+    };
+
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+
+        const review: ReviewType = {
+            author: session.user.name || session.user.email,
+            date: new Date().toDateString(),
+            rating: rating,
+            desc: comment,
+        };
+
+        try {
+            const res = await fetch(`/api/review/${recp._id}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(review),
+            });
+
+            const data = await res.json();
+
+            console.log(data);
+        } catch (err: any) {
+            console.error("Error in submitting review");
+        }
+    };
+
+    // function checkReviews(): boolean {
+    //     const users: RegExp[] = recp.reviews.map(
+    //         (review) => new RegExp(review.author, "gim")
+    //     );
+
+    //     users.forEach((userRe: RegExp) => {
+    //         console.log(userRe);
+
+    //         if (
+    //             userRe.test(session.user.email) ||
+    //             userRe.test(session.user.name)
+    //         ) {
+    //             console.log("is true", session.user.email);
+
+    //             return true;
+    //         }
+    //     });
+
+    //     return false;
+    // }
+
     return (
         <div className="container">
             <div className="row">
                 <div className="col-lg-8">
                     <div className="margin-bottom-40px card border-0 box-shadow">
                         <div className="card-img-top">
-                            <a href="#">
-                                <img
-                                    src="/assets/img/recipes-single.jpg"
-                                    alt=""
-                                />
+                            <a>
+                                <img src={recp.imgSrc} alt="image-food" />
                             </a>
                         </div>
                         <div className="padding-lr-30px padding-tb-20px">
@@ -36,11 +91,11 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                             ></li>
                                         )
                                     )}
-                                    {[...Array(5 - recp.rating)].map(
+                                    {/* {[...Array(5 - recp.rating)].map(
                                         (rating: number, index: number) => (
                                             <li key={index}></li>
                                         )
-                                    )}
+                                    )} */}
                                 </ul>
                             </div>
                             <hr />
@@ -130,83 +185,91 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                 "
                             >
                                 {/* ##################################################### */}
-                                {recp.reviews.map((review, index) => (
-                                    <li
-                                        key={index}
-                                        className="
+
+                                {recp.reviews.length != 0 ? (
+                                    recp.reviews.map((review, index) => (
+                                        <li
+                                            key={index}
+                                            className="
                                         border-bottom-1 border-grey-1
                                         margin-bottom-20px
                                     "
-                                    >
-                                        <img
-                                            src="/assets/default-profile.png"
-                                            width={60}
-                                            height={60}
-                                            className="
+                                        >
+                                            <img
+                                                src="/assets/default-profile.png"
+                                                width={60}
+                                                height={60}
+                                                className="
                                             float-left
                                             margin-right-20px
                                             border-radius-60
                                             margin-bottom-20px
                                         "
-                                            alt=""
-                                        />
-                                        <div className="margin-left-85px">
-                                            <a
-                                                className="
+                                                alt=""
+                                            />
+                                            <div className="margin-left-85px">
+                                                <a
+                                                    className="
                                                 d-inline-block
                                                 text-dark text-medium
                                                 margin-right-20px
                                             "
-                                                href="#"
-                                            >
-                                                {review.author}
-                                            </a>
-                                            <span className="text-extra-small">
-                                                Date :
-                                                <a
                                                     href="#"
-                                                    className="text-main-color"
                                                 >
-                                                    {review.date}
+                                                    {review.author}
                                                 </a>
-                                            </span>
-                                            <div className="rating">
-                                                <ul>
-                                                    {[
-                                                        ...Array(review.rating),
-                                                    ].map(
-                                                        (
-                                                            rating: number,
-                                                            index: number
-                                                        ) => (
-                                                            <li
-                                                                className="active"
-                                                                key={index}
-                                                            ></li>
-                                                        )
-                                                    )}
-                                                    {[
-                                                        ...Array(
-                                                            5 - review.rating
-                                                        ),
-                                                    ].map(
-                                                        (
-                                                            rating: number,
-                                                            index: number
-                                                        ) => (
-                                                            <li
-                                                                key={index}
-                                                            ></li>
-                                                        )
-                                                    )}
-                                                </ul>
+                                                <span className="text-extra-small">
+                                                    Date :
+                                                    <a
+                                                        href="#"
+                                                        className="text-main-color"
+                                                    >
+                                                        {review.date}
+                                                    </a>
+                                                </span>
+                                                <div className="rating">
+                                                    <ul>
+                                                        {[
+                                                            ...Array(
+                                                                review.rating
+                                                            ),
+                                                        ].map(
+                                                            (
+                                                                rating: number,
+                                                                index: number
+                                                            ) => (
+                                                                <li
+                                                                    className="active"
+                                                                    key={index}
+                                                                ></li>
+                                                            )
+                                                        )}
+                                                        {/* {[
+                                                            ...Array(
+                                                                5 -
+                                                                    review.rating
+                                                            ),
+                                                        ].map(
+                                                            (
+                                                                rating: number,
+                                                                index: number
+                                                            ) => (
+                                                                <li
+                                                                    key={index}
+                                                                ></li>
+                                                            )
+                                                        )} */}
+                                                    </ul>
+                                                </div>
+                                                <p className="margin-top-15px text-grey-2">
+                                                    {review.desc}
+                                                </p>
                                             </div>
-                                            <p className="margin-top-15px text-grey-2">
-                                                {review.desc}
-                                            </p>
-                                        </div>
-                                    </li>
-                                ))}
+                                        </li>
+                                    ))
+                                ) : (
+                                    <h3>No reviews for this recipe yet :(</h3>
+                                )}
                                 {/* ##################################################### */}
                             </ul>
                         </div>
@@ -226,45 +289,135 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                 Add Review
                             </h3>
                             <hr />
-                            <form>
-                                <div className="form-row">
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="inputName">
-                                            Full Name
-                                        </label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="inputName"
-                                            placeholder="Name"
-                                        />
+                            {session ? (
+                                <form onSubmit={(e) => handleSubmit(e)}>
+                                    <div className="form-row">
+                                        <div className="col-lg-3 col-md-12 ordering">
+                                            <div className="form-group">
+                                                <div className="rating">
+                                                    <input
+                                                        id="star5"
+                                                        name="star"
+                                                        type="radio"
+                                                        value={5}
+                                                        className="radio-btn hide"
+                                                        onClick={() =>
+                                                            ratingChangeHandler(
+                                                                5
+                                                            )
+                                                        }
+                                                    />
+                                                    <label
+                                                        htmlFor="star5"
+                                                        style={{
+                                                            fontSize: 27,
+                                                        }}
+                                                    >
+                                                        ☆
+                                                    </label>
+                                                    <input
+                                                        id="star4"
+                                                        name="star"
+                                                        type="radio"
+                                                        value={4}
+                                                        className="radio-btn hide"
+                                                        onClick={() =>
+                                                            ratingChangeHandler(
+                                                                4
+                                                            )
+                                                        }
+                                                    />
+                                                    <label
+                                                        htmlFor="star4"
+                                                        style={{
+                                                            fontSize: 27,
+                                                        }}
+                                                    >
+                                                        ☆
+                                                    </label>
+                                                    <input
+                                                        id="star3"
+                                                        name="star"
+                                                        type="radio"
+                                                        value={3}
+                                                        className="radio-btn hide"
+                                                        onClick={() =>
+                                                            ratingChangeHandler(
+                                                                3
+                                                            )
+                                                        }
+                                                    />
+                                                    <label
+                                                        htmlFor="star3"
+                                                        style={{
+                                                            fontSize: 27,
+                                                        }}
+                                                    >
+                                                        ☆
+                                                    </label>
+                                                    <input
+                                                        id="star2"
+                                                        name="star"
+                                                        type="radio"
+                                                        value={2}
+                                                        className="radio-btn hide"
+                                                        onClick={() =>
+                                                            ratingChangeHandler(
+                                                                2
+                                                            )
+                                                        }
+                                                    />
+                                                    <label
+                                                        htmlFor="star2"
+                                                        style={{
+                                                            fontSize: 27,
+                                                        }}
+                                                    >
+                                                        ☆
+                                                    </label>
+                                                    <input
+                                                        id="star1"
+                                                        name="star"
+                                                        type="radio"
+                                                        value={1}
+                                                        className="radio-btn hide"
+                                                        onClick={() =>
+                                                            ratingChangeHandler(
+                                                                1
+                                                            )
+                                                        }
+                                                    />
+                                                    <label
+                                                        htmlFor="star1"
+                                                        style={{
+                                                            fontSize: 27,
+                                                        }}
+                                                    >
+                                                        ☆
+                                                    </label>
+                                                    {/* <div className="clear"></div> */}
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="form-group col-md-6">
-                                        <label htmlFor="inputEmail4">
-                                            Email
+                                    <div className="form-group">
+                                        <label htmlFor="exampleFormControlTextarea1">
+                                            Comment :
                                         </label>
-                                        <input
-                                            type="email"
+                                        <textarea
                                             className="form-control"
-                                            id="inputEmail4"
-                                            placeholder="Email"
-                                        />
+                                            id="exampleFormControlTextarea1"
+                                            rows={3}
+                                            placeholder="Comment"
+                                            onChange={(e) => {
+                                                setComment(e.target.value);
+                                            }}
+                                        ></textarea>
                                     </div>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="exampleFormControlTextarea1">
-                                        Comment :
-                                    </label>
-                                    <textarea
-                                        className="form-control"
-                                        id="exampleFormControlTextarea1"
-                                        rows={3}
-                                        placeholder="Comment"
-                                    ></textarea>
-                                </div>
-                                <a
-                                    href="#"
-                                    className="
+                                    <button
+                                        style={{ cursor: "pointer" }}
+                                        type="submit"
+                                        className="
                                         btn-sm btn-lg btn-block
                                         background-main-color
                                         text-white text-center
@@ -273,10 +426,16 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                         border-radius-10
                                         padding-10px
                                     "
-                                >
-                                    Add Now !
-                                </a>
-                            </form>
+                                    >
+                                        Add Now !
+                                    </button>
+                                </form>
+                            ) : (
+                                <h3>
+                                    You need to log in before you can post a
+                                    review!
+                                </h3>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -302,12 +461,12 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                             margin-bottom-10px
                                         "
                                         type="text"
-                                        placeholder="Keywords..."
-                                        value=""
+                                        value="Not the recipe you had in mind?"
+                                        readOnly={true}
                                     />
                                 </div>
                             </div>
-                            <div className="col-md-12">
+                            {/* <div className="col-md-12">
                                 <div className="categories dropdown">
                                     <a
                                         className="
@@ -378,44 +537,49 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </div> */}
                             <div className="col-md-12">
-                                <a
-                                    className="
+                                <Link href="/recipes">
+                                    <a
+                                        className="
                                         listing-bottom
                                         border-radius-10
                                         background-second-color
                                         box-shadow
                                     "
-                                    href="#"
-                                >
-                                    Search Now
-                                </a>
+                                    >
+                                        Search for another one
+                                    </a>
+                                </Link>
                             </div>
                         </form>
                     </div>
 
                     <div className="row margin-tb-45px">
-                        <div className="col-6 margin-bottom-25px">
-                            <a
-                                href="#"
-                                className="
+                        {recp.tags.map((tag, index) => (
+                            <div
+                                key={index}
+                                className="col-6 margin-bottom-25px"
+                            >
+                                <a
+                                    className="
                                     d-block
                                     box-shadow
                                     background-main-color
                                     text-white
                                     hvr-float
                                 "
-                            >
-                                <div className="thum">
+                                >
+                                    {/* <div className="thum">
                                     <img src="/assets/img/cat-1.jpg" alt="" />
-                                </div>
-                                <h4 className="text-center padding-15px">
-                                    Fish
-                                </h4>
-                            </a>
-                        </div>
-                        <div className="col-6 margin-bottom-25px">
+                                </div> */}
+                                    <h4 className="text-center padding-15px">
+                                        {tag}
+                                    </h4>
+                                </a>
+                            </div>
+                        ))}
+                        {/* <div className="col-6 margin-bottom-25px">
                             <a
                                 href="#"
                                 className="
@@ -471,10 +635,10 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                     Salads
                                 </h4>
                             </a>
-                        </div>
+                        </div> */}
                     </div>
 
-                    <div className="widget widget_categories">
+                    {/* <div className="widget widget_categories">
                         <div className="margin-bottom-30px">
                             <div
                                 className="
@@ -535,7 +699,7 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

@@ -31,6 +31,7 @@ export default class MyDocument extends Document {
                         rel="stylesheet"
                         href="/assets/css/elegant_icon.css"
                     />
+                    {/* <link rel="stylesheet" href="/assets/css/rating.css" /> */}
                     <link
                         rel="stylesheet"
                         href="/assets/css/fontawesome-all.min.css"

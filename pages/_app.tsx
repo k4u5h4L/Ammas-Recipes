@@ -10,6 +10,8 @@ import { useApollo } from "@/graphql/apolloClient";
 import NextNprogress from "nextjs-progressbar";
 import Navbar from "@/components/Navbar/Navbar";
 
+import "@/public/assets/css/rating.css";
+
 function MyApp({ Component, pageProps }: AppProps) {
     const client = useApollo();
 

@@ -11,7 +11,7 @@ import dbConnect from "@/utils/dbConnect";
 const NewRecipe = ({ recipe }) => {
     const re = JSON.parse(recipe);
 
-    console.log(re);
+    // console.log(re);
 
     return (
         <>

@@ -179,14 +179,14 @@ export default function RecipesList({ recp }) {
                                                     ></li>
                                                 )
                                             )}
-                                            {[...Array(5 - recipe.rating)].map(
+                                            {/* {[...Array(5 - recipe.rating)].map(
                                                 (
                                                     rating: number,
                                                     index: number
                                                 ) => (
                                                     <li key={index}></li>
                                                 )
-                                            )}
+                                            )} */}
                                         </ul>
                                     </div>
                                     <h3>

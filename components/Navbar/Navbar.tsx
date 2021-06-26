@@ -4,6 +4,7 @@ import { useSession } from "next-auth/client";
 
 export default function Navbar() {
     const [session] = useSession();
+
     return (
         <header className="background-main-color">
             <div className="container">
@@ -17,8 +18,10 @@ export default function Navbar() {
                                     className="d-inline-block margin-tb-5px"
                                 >
                                     <img
-                                        src="/assets/img/logo-small.png"
-                                        alt=""
+                                        src="/icon.png"
+                                        alt="logo-icon"
+                                        width={50}
+                                        height={50}
                                     />
                                 </a>
                                 <a
