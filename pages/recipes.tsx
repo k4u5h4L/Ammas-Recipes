@@ -6,6 +6,7 @@ import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
 import RecipesList from "@/components/RecipesList/RecipesList";
 import Recipe from "@/models/Recipe";
 import { RecipeType } from "@/types/RecipeType";
+import dbConnect from "@/utils/dbConnect";
 
 const Recipes = ({ recipes }) => {
     return (
@@ -20,6 +21,8 @@ const Recipes = ({ recipes }) => {
 export const getStaticProps: GetStaticProps = async (
     context: GetStaticPathsContext
 ) => {
+    await dbConnect();
+
     const recipes: RecipeType[] = await Recipe.find().sort({ rating: -1 });
     // .limit(20);
 
