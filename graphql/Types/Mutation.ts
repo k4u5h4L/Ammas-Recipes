@@ -4,7 +4,7 @@ import xss from "xss";
 
 import dbConnect from "@/utils/dbConnect";
 import Recipe from "@/models/Recipe";
-import { RecipeType } from "@/types/index";
+import { Ingredient, RecipeType } from "@/types/index";
 
 export const Mutation = mutationType({
     definition(t) {
@@ -24,6 +24,20 @@ export const Mutation = mutationType({
                         recipe.cook =
                             ctx.session.user.name ||
                             ctx.session.user.email.split("@")[0];
+
+                        recipe.method = recipe.method
+                            .map((m: string) => m.trim())
+                            .filter((m: string) => m != "");
+
+                        recipe.ingredients = recipe.ingredients
+                            .map((ing: Ingredient) => ({
+                                item: ing.item.trim(),
+                                quantity: ing.item.trim(),
+                            }))
+                            .filter(
+                                (ing: Ingredient) =>
+                                    ing.item != "" && ing.quantity != ""
+                            );
 
                         const r = await new Recipe(recipe);
                         r.save();

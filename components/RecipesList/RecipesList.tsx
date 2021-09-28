@@ -161,7 +161,10 @@ export default function RecipesList({ recp }) {
                                 <div className="float-md-left margin-right-30px thum-xs">
                                     <img
                                         className="width-250px"
-                                        src={recipe.imgSrc}
+                                        src={
+                                            recipe.imgSrc ||
+                                            "/assets/img/default-food.png"
+                                        }
                                         alt={recipe.name + "-alt"}
                                     />
                                 </div>

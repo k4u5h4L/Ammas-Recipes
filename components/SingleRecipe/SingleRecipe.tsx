@@ -85,7 +85,13 @@ export default function SingleRecipe({ recp }: PropTypes) {
                     <div className="margin-bottom-40px card border-0 box-shadow">
                         <div className="card-img-top">
                             <a>
-                                <img src={recp.imgSrc} alt="image-food" />
+                                <img
+                                    src={
+                                        recp.imgSrc ||
+                                        "/assets/img/default-food.png"
+                                    }
+                                    alt="image-food"
+                                />
                             </a>
                         </div>
                         <div className="padding-lr-30px padding-tb-20px">

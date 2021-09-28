@@ -20,7 +20,10 @@ export default function RecipeCard({
             <div className="card border-0 box-shadow">
                 <div className="card-img-top">
                     <a href="#">
-                        <img src={imgSrc} alt="" />
+                        <img
+                            src={imgSrc || "/assets/img/default-food.png"}
+                            alt=""
+                        />
                     </a>
                 </div>
                 <div className="padding-lr-30px padding-tb-20px">
