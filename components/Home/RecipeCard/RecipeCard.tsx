@@ -1,6 +1,14 @@
 import React from "react";
+import Link from "next/link";
 
-export default function RecipeCard({ title, imgSrc, rating, cuisine, cook }) {
+export default function RecipeCard({
+    title,
+    imgSrc,
+    rating,
+    cuisine,
+    cook,
+    path,
+}) {
     return (
         <div
             className="
@@ -17,9 +25,9 @@ export default function RecipeCard({ title, imgSrc, rating, cuisine, cook }) {
                 </div>
                 <div className="padding-lr-30px padding-tb-20px">
                     <h5 className="margin-bottom-20px margin-top-10px">
-                        <a className="text-dark" href="#">
-                            {title}
-                        </a>
+                        <Link href={`/recipe/${path}`}>
+                            <a className="text-dark">{title}</a>
+                        </Link>
                     </h5>
                     <div className="rating">
                         {rating ? (

@@ -5,10 +5,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 export default (req: NextApiRequest, res: NextApiResponse) =>
     NextAuth(req, res, {
         providers: [
-            // Providers.GitHub({
-            //     clientId: process.env.GITHUB_CLIENT_ID,
-            //     clientSecret: process.env.GITHUB_CLIENT_SECRET,
-            // }),
+            Providers.GitHub({
+                clientId: process.env.GITHUB_CLIENT_ID,
+                clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            }),
+
+            Providers.Google({
+                clientId: process.env.GOOGLE_CLIENT_ID,
+                clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            }),
 
             Providers.Email({
                 server: {

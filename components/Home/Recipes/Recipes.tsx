@@ -30,6 +30,7 @@ export default function Recipes({ recipes }: PropTypes) {
                     {recipes.map((recipe, index) => (
                         <RecipeCard
                             key={index}
+                            path={recipe._id}
                             title={recipe.name}
                             imgSrc={recipe.imgSrc}
                             rating={recipe.rating}

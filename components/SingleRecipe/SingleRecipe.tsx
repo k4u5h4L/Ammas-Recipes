@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/client";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 import { RecipeType, ReviewType } from "@/types/RecipeType";
 interface PropTypes {
@@ -9,6 +10,7 @@ interface PropTypes {
 
 export default function SingleRecipe({ recp }: PropTypes) {
     const [session] = useSession();
+    const router = useRouter();
 
     const [rating, setRating] = useState<number>(0);
     const [comment, setComment] = useState<string>("");
@@ -21,7 +23,7 @@ export default function SingleRecipe({ recp }: PropTypes) {
         e.preventDefault();
 
         const review: ReviewType = {
-            author: session.user.name || session.user.email,
+            author: session.user.name || session.user.email.split("@")[0],
             date: new Date().toDateString(),
             rating: rating,
             desc: comment,
@@ -39,6 +41,8 @@ export default function SingleRecipe({ recp }: PropTypes) {
             const data = await res.json();
 
             console.log(data);
+
+            router.reload();
         } catch (err: any) {
             console.error("Error in submitting review");
         }
@@ -64,6 +68,15 @@ export default function SingleRecipe({ recp }: PropTypes) {
 
     //     return false;
     // }
+
+    const checkIfAlreadyPosted = (): boolean => {
+        const authors = recp.reviews.map((r: ReviewType) => r.author);
+
+        return !(
+            authors.includes(session.user.email.split("@")[0]) ||
+            authors.includes(session.user.name)
+        );
+    };
 
     return (
         <div className="container">
@@ -293,7 +306,7 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                 Add Review
                             </h3>
                             <hr />
-                            {session ? (
+                            {session && checkIfAlreadyPosted() ? (
                                 <form onSubmit={(e) => handleSubmit(e)}>
                                     <div className="form-row">
                                         <div className="col-lg-3 col-md-12 ordering">
@@ -436,8 +449,10 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                 </form>
                             ) : (
                                 <h3>
-                                    You need to log in before you can post a
-                                    review!
+                                    {!session
+                                        ? `You need to log in before you can post a
+                                    review!`
+                                        : `You seem to have already posted a review!`}
                                 </h3>
                             )}
                         </div>

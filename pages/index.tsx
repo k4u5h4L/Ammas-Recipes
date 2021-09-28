@@ -80,7 +80,8 @@ export const getStaticProps: GetStaticProps = async (
 
     const cuisines: string[] = recipes
         .map((recipe) => recipe.cuisine)
-        .filter(onlyUnique);
+        .filter(onlyUnique)
+        .slice(0, 7);
 
     // console.log(recipes);
 

@@ -74,6 +74,53 @@ export default function Login() {
                                     Login
                                 </button>
 
+                                <hr />
+
+                                <div className="txt1 text-center p-t-54 p-b-20">
+                                    <span>Or Sign In Using</span>
+                                </div>
+
+                                <div className="col-md-4 text-lg-center">
+                                    <a
+                                        style={{
+                                            cursor: "pointer",
+                                        }}
+                                        onClick={() => signIn("google")}
+                                        className="
+                                btn
+                                box-shadow
+                                padding-lr-30px padding-tb-10px
+                                btn-sm
+                                border-2 border-radius-30
+                                btn-inline-block
+                                background-main-color
+                                text-white
+                                margin-right-20px margin-tb-12px
+                            "
+                                    >
+                                        <i className="fab fa-google"></i> Sign
+                                        in with Google
+                                    </a>
+                                    <a
+                                        style={{ cursor: "pointer" }}
+                                        onClick={() => signIn("github")}
+                                        className="
+                                btn
+                                box-shadow
+                                padding-lr-30px padding-tb-10px
+                                btn-sm
+                                border-2 border-radius-30
+                                btn-inline-block
+                                background-dark
+                                text-white
+                                margin-tb-12px
+                            "
+                                    >
+                                        <i className="fab fa-github"></i> Sign
+                                        in with GitHub
+                                    </a>
+                                </div>
+
                                 {/* <div className="or"></div>
 
                             <a
@@ -127,6 +174,7 @@ export default function Login() {
                                 <button
                                     className="btn btn-md btn-primary full-width"
                                     type="button"
+                                    style={{ cursor: "pointer" }}
                                     onClick={() => signOut()}
                                 >
                                     Logout
