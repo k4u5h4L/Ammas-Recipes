@@ -90,7 +90,7 @@ export const getStaticProps: GetStaticProps = async (
             recps: JSON.stringify(recipes),
             cuisines: cuisines,
         },
-        revalidate: 30,
+        revalidate: 10,
     };
 };
 

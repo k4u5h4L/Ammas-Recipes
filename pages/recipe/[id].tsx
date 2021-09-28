@@ -54,7 +54,13 @@ export const getStaticProps: GetStaticProps = async (
 
     try {
         recipe = await Recipe.findById(id);
-    } catch (err) {
+    } catch (err: any) {
+        return {
+            notFound: true,
+        };
+    }
+
+    if (!recipe) {
         return {
             notFound: true,
         };
@@ -64,7 +70,7 @@ export const getStaticProps: GetStaticProps = async (
         props: {
             recipe: JSON.stringify(recipe),
         },
-        revalidate: 1,
+        revalidate: 5,
     };
 };
 
