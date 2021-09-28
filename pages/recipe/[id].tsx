@@ -1,5 +1,6 @@
 import React from "react";
 import { GetStaticPaths, GetStaticProps, GetStaticPropsContext } from "next";
+import { useRouter } from "next/router";
 
 import Footer from "@/components/Footer/Footer";
 import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
@@ -9,9 +10,15 @@ import Recipe from "@/models/Recipe";
 import dbConnect from "@/utils/dbConnect";
 
 const NewRecipe = ({ recipe }) => {
+    const router = useRouter();
+
     const re = JSON.parse(recipe);
 
     // console.log(re);
+
+    if (router.isFallback) {
+        <h1>Loading...</h1>;
+    }
 
     return (
         <>
@@ -33,7 +40,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
     // We'll pre-render only these paths at build time.
     // { fallback: false } means other routes should 404.
-    return { paths, fallback: false };
+    return { paths, fallback: true };
 };
 
 export const getStaticProps: GetStaticProps = async (
@@ -43,7 +50,15 @@ export const getStaticProps: GetStaticProps = async (
 
     const { id } = context.params;
 
-    const recipe: RecipeType = await Recipe.findById(id);
+    let recipe: RecipeType;
+
+    try {
+        recipe = await Recipe.findById(id);
+    } catch (err) {
+        return {
+            notFound: true,
+        };
+    }
 
     return {
         props: {
