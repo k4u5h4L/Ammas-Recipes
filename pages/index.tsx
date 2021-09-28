@@ -57,7 +57,7 @@ const Index = ({ recps, cuisines }) => {
                 <h2>Loading...</h2>
             )} */}
             <Ingredients cuisines={cuisines} />
-            <Recipes recipes={JSON.parse(recps)} />
+            <Recipes recipes={recps} />
             <Gallery />
             <Footer />
         </>
@@ -87,7 +87,7 @@ export const getStaticProps: GetStaticProps = async (
 
     return {
         props: {
-            recps: JSON.stringify(recipes),
+            recps: recipes,
             cuisines: cuisines,
         },
         revalidate: 30,
