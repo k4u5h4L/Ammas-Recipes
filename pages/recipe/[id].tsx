@@ -9,21 +9,20 @@ import { RecipeType } from "@/types/RecipeType";
 import Recipe from "@/models/Recipe";
 import dbConnect from "@/utils/dbConnect";
 
-const NewRecipe = ({ recipe }) => {
+const NewRecipe = ({ rec }) => {
     const router = useRouter();
-
-    const re = JSON.parse(recipe);
-
     // console.log(re);
 
     if (router.isFallback) {
-        <h1>Loading...</h1>;
+        return <h1>Loading...</h1>;
     }
+
+    const recipe = JSON.parse(rec);
 
     return (
         <>
-            <Breadcrumb paths={["recipe", re.name]} name="Recipe" />
-            <SingleRecipe recp={re} />
+            <Breadcrumb paths={["recipe", recipe.name]} name="Recipe" />
+            <SingleRecipe recp={recipe} />
             <Footer />
         </>
     );
@@ -68,7 +67,7 @@ export const getStaticProps: GetStaticProps = async (
 
     return {
         props: {
-            recipe: JSON.stringify(recipe),
+            rec: JSON.stringify(recipe),
         },
         revalidate: 5,
     };
