@@ -82,21 +82,25 @@ export default function SingleRecipe({ recp }: PropTypes) {
                                 </a>
                             </h5>
                             <div className="rating">
-                                <ul>
-                                    {[...Array(recp.rating)].map(
-                                        (rating: number, index: number) => (
-                                            <li
-                                                className="active"
-                                                key={index}
-                                            ></li>
-                                        )
-                                    )}
-                                    {/* {[...Array(5 - recp.rating)].map(
-                                        (rating: number, index: number) => (
-                                            <li key={index}></li>
-                                        )
-                                    )} */}
-                                </ul>
+                                {recp.rating ? (
+                                    <ul>
+                                        {[...Array(recp.rating)].map(
+                                            (rating: number, index: number) => (
+                                                <li
+                                                    className="active"
+                                                    key={index}
+                                                ></li>
+                                            )
+                                        )}
+                                        {/* {[...Array(5 - rating)].map(
+                                (rating: number, index: number) => (
+                                    <li key={index}></li>
+                                )
+                            )} */}
+                                    </ul>
+                                ) : (
+                                    <p>(No ratings yet)</p>
+                                )}
                             </div>
                             <hr />
                             <h3>Ingredients</h3>

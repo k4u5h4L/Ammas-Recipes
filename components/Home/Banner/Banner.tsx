@@ -18,7 +18,7 @@ export default function Banner() {
                                 margin-bottom-40px
                             "
                         >
-                            +20,000
+                            Authentic
                         </h1>
                         <h3 className="text-white icon-large font-weight-100">
                             Cooking Recipes

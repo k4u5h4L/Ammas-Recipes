@@ -12,6 +12,9 @@ type Mutation {
 }
 
 type Query {
+  """Get all recipes sorted by latest first."""
+  GetLatestRecipes(num: Int, start: Int): [Recipe]
+
   """Search a recipe using a query string"""
   SearchRecipe(num: Int, query: String, start: Int): [Recipe]
 }

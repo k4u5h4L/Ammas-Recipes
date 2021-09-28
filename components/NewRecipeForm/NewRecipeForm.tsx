@@ -13,7 +13,7 @@ const ADD_RECIPE = gql`
     }
 `;
 
-export default function NewRecipe() {
+export default function NewRecipe({ user }) {
     const router = useRouter();
     const [ing, setIng] = useState([1]);
     const [methods, setMethods] = useState([1]);
@@ -32,7 +32,7 @@ export default function NewRecipe() {
         name: "",
         imgSrc: "",
         method: [""],
-        cook: "",
+        cook: user.name || user.email,
         reviews: [],
     };
     const recipeRef = useRef(r);

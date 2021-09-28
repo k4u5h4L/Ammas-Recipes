@@ -71,5 +71,29 @@ export const Query = queryType({
                 return recipes;
             },
         });
+
+        t.list.field("GetLatestRecipes", {
+            type: CookRecipe,
+            description: "Get all recipes sorted by latest first.",
+            args: { start: intArg(), num: intArg() },
+            resolve: async (
+                _root,
+                { start, num }: { start: number; num: number },
+                ctx
+            ) => {
+                await dbConnect();
+
+                // prettier-ignore
+                const recipes: RecipeType[] = await Recipe.find({}).sort({ timestamps: 1 }).skip(start).limit(num);
+
+                if (!recipes) {
+                    console.log("does not exist");
+                }
+
+                // console.log(recipes);
+
+                return recipes;
+            },
+        });
     },
 });

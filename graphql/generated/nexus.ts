@@ -71,6 +71,7 @@ export interface NexusGenFieldTypes {
     createRecipe: NexusGenRootTypes['Recipe'] | null; // Recipe
   }
   Query: { // field return type
+    GetLatestRecipes: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
     SearchRecipe: Array<NexusGenRootTypes['Recipe'] | null> | null; // [Recipe]
   }
   Recipe: { // field return type
@@ -100,6 +101,7 @@ export interface NexusGenFieldTypeNames {
     createRecipe: 'Recipe'
   }
   Query: { // field return type name
+    GetLatestRecipes: 'Recipe'
     SearchRecipe: 'Recipe'
   }
   Recipe: { // field return type name
@@ -127,6 +129,10 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    GetLatestRecipes: { // args
+      num?: number | null; // Int
+      start?: number | null; // Int
+    }
     SearchRecipe: { // args
       num?: number | null; // Int
       query?: string | null; // String

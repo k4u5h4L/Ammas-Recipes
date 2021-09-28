@@ -22,18 +22,22 @@ export default function RecipeCard({ title, imgSrc, rating, cuisine, cook }) {
                         </a>
                     </h5>
                     <div className="rating">
-                        <ul>
-                            {[...Array(rating)].map(
-                                (rating: number, index: number) => (
-                                    <li className="active" key={index}></li>
-                                )
-                            )}
-                            {/* {[...Array(5 - rating)].map(
+                        {rating ? (
+                            <ul>
+                                {[...Array(rating)].map(
+                                    (rating: number, index: number) => (
+                                        <li className="active" key={index}></li>
+                                    )
+                                )}
+                                {/* {[...Array(5 - rating)].map(
                                 (rating: number, index: number) => (
                                     <li key={index}></li>
                                 )
                             )} */}
-                        </ul>
+                            </ul>
+                        ) : (
+                            <p>(No ratings yet)</p>
+                        )}
                     </div>
                     <hr />
                     <div className="row no-gutters">

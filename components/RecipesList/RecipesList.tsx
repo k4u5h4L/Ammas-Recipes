@@ -167,27 +167,28 @@ export default function RecipesList({ recp }) {
                                 </div>
                                 <div className="padding-25px">
                                     <div className="rating">
-                                        <ul>
-                                            {[...Array(recipe.rating)].map(
-                                                (
-                                                    rating: number,
-                                                    index: number
-                                                ) => (
-                                                    <li
-                                                        className="active"
-                                                        key={index}
-                                                    ></li>
-                                                )
-                                            )}
-                                            {/* {[...Array(5 - recipe.rating)].map(
-                                                (
-                                                    rating: number,
-                                                    index: number
-                                                ) => (
+                                        {recipe.rating ? (
+                                            <ul>
+                                                {[...Array(recipe.rating)].map(
+                                                    (
+                                                        rating: number,
+                                                        index: number
+                                                    ) => (
+                                                        <li
+                                                            className="active"
+                                                            key={index}
+                                                        ></li>
+                                                    )
+                                                )}
+                                                {/* {[...Array(5 - rating)].map(
+                                                (rating: number, index: number) => (
                                                     <li key={index}></li>
                                                 )
                                             )} */}
-                                        </ul>
+                                            </ul>
+                                        ) : (
+                                            <p>(No ratings yet)</p>
+                                        )}
                                     </div>
                                     <h3>
                                         <Link href={`/recipe/${recipe._id}`}>

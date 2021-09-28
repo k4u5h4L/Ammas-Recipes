@@ -22,7 +22,8 @@ export const Mutation = mutationType({
                     try {
                         let recipe: RecipeType = JSON.parse(data);
                         recipe.cook =
-                            ctx.session.user.name || ctx.session.user.email;
+                            ctx.session.user.name ||
+                            ctx.session.user.email.split("@")[0];
 
                         const r = await new Recipe(recipe);
                         r.save();

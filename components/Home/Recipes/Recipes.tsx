@@ -2,6 +2,7 @@ import React from "react";
 
 import RecipeCard from "@/components/Home/RecipeCard/RecipeCard";
 import { RecipeType } from "@/types/RecipeType";
+import Link from "next/link";
 
 interface PropTypes {
     recipes: RecipeType[];
@@ -39,9 +40,9 @@ export default function Recipes({ recipes }: PropTypes) {
                     {/* <!-- // Recipe Item --> */}
                 </div>
                 <div className="text-center">
-                    <a
-                        href="#"
-                        className="
+                    <Link href="/recipes">
+                        <a
+                            className="
                             btn
                             box-shadow
                             margin-top-50px
@@ -53,9 +54,10 @@ export default function Recipes({ recipes }: PropTypes) {
                             background-second-color
                             text-white
                         "
-                    >
-                        Show All Recipes
-                    </a>
+                        >
+                            Show All Recipes
+                        </a>
+                    </Link>
                 </div>
             </div>
         </section>
