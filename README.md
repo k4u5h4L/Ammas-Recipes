@@ -65,4 +65,4 @@ yarn dev
 
 -   This project is for learning purposes only.
 
-<!-- -   Any contribution is welcome. You may fork the repo and issue a PR. -->
+-   Any contribution is welcome. You may fork the repo and issue a PR.
