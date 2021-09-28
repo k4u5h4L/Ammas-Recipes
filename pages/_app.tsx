@@ -26,10 +26,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                 />
                 <meta name="apple-mobile-web-app-capable" content="yes" />
                 <meta
-                    content="A React, TypeScript, Next.js based chat app"
+                    content="An app to store and share all your homemade recipes!"
                     name="description"
                 />
-                <meta content="Chatterz" name="title" />
+                <meta content="Amma's Recipes" name="title" />
                 <meta name="theme-color" content="#ffffff" />
                 <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
                 <link
